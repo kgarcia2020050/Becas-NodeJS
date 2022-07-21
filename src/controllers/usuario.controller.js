@@ -3,34 +3,25 @@ const encriptar = require("bcrypt-nodejs");
 
 function nuevaEmpresa(req, res) {
   var datos = req.body;
-  if (
-    datos.nombre == "" ||
-    (datos.apellido == "") | (datos.email == "") ||
-    datos.password == ""
-  ) {
-    return res.status(500).send({ Error: "Debes llenar todos los datos." });
-  } else {
-    encriptar.hash(datos.password, null, null, (error, claveEncriptada) => {
-      Usuarios.create(
-        {
-          nombre: datos.nombre,
-          apellido: datos.apellido,
-          genero: datos.genero,
-          email: datos.email,
-          password: claveEncriptada,
-          telefono: datos.telefono,
-          rol: "EMPRESA",
-        },
-        (error, nuevaEmpresa) => {
-          if (error)
-            return res
-              .status(500)
-              .send({ Error: "Error al crear a la empresa." });
-          return res.status(200).send({ Nueva_empresa: nuevaEmpresa });
-        }
-      );
-    });
-  }
+
+  encriptar.hash(datos.password, null, null, (error, claveEncriptada) => {
+    Usuarios.create(
+      {
+        nombre: datos.nombre,
+        email: datos.email,
+        password: claveEncriptada,
+        telefono: datos.telefono,
+        rol: "EMPRESA",
+      },
+      (error, nuevaEmpresa) => {
+        if (error)
+          return res
+            .status(500)
+            .send({ Error: "Error al crear a la empresa." });
+        return res.status(200).send({ Nueva_empresa: nuevaEmpresa });
+      }
+    );
+  });
 }
 
 function usuarioId(req, res) {
@@ -70,9 +61,27 @@ function borrarPerfil(req, res) {
   );
 }
 
+function usuariosRegistrado(req, res) {
+  Usuarios.find({ rol: "USUARIO" }, (error, usuariosRegistrados) => {
+    if (error)
+      return res.status(500).send({ Error: "Error al procesar la peticion." });
+    return res.status(200).send({ Usuarios_registrados: usuariosRegistrados });
+  });
+}
+
+function empresasRegistradas(req, res) {
+  Usuarios.find({ rol: "EMPRESA" }, (error, empresasRegistradas) => {
+    if (error)
+      return res.status(500).send({ Error: "Error al procesar la peticion." });
+    return res.status(200).send({ Empresas_registradas: empresasRegistradas });
+  });
+}
+
 module.exports = {
   nuevaEmpresa,
   usuarioId,
   editarPerfil,
   borrarPerfil,
+  usuariosRegistrado,
+  empresasRegistradas,
 };

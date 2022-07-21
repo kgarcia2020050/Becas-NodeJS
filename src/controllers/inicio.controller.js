@@ -40,6 +40,8 @@ function registroUsuarios(req, res) {
       } else {
         var modeloUsuario = new Usuarios();
         modeloUsuario.nombre = datos.nombre;
+        modeloUsuario.apellido=datos.apellido;
+        modeloUsuario.genero=datos.genero;
         modeloUsuario.email = datos.email;
         modeloUsuario.rol = "USUARIO";
         modeloUsuario.telefono=datos.telefono;
