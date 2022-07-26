@@ -5,6 +5,7 @@ const Becas = Schema({
   nombre: String,
   descripcion: String,
   requisitos: String,
+  vacantes:Number,
   idCreador: { type: Schema.Types.ObjectId, ref: "Usuarios" },
 });
 

@@ -7,6 +7,7 @@ function nuevaBeca(req, res) {
       nombre: datos.nombre,
       descripcion: datos.descripcion,
       requisitos: datos.requisitos,
+      vacantes: datos.vacantes,
       idCreador: req.params.ID,
     },
     (error, becaCreada) => {
@@ -49,9 +50,27 @@ function borrarBeca(req, res) {
   });
 }
 
+function verBecas(req, res) {
+  Becas.find((error, becas) => {
+    if (error)
+      return res.status(500).send({ Error: "Error al procesar la peticion." });
+    return res.status(200).send({ Becas: becas });
+  });
+}
+
+function becasEmpresa(req, res) {
+  Becas.find({ idCreador: req.params.ID }, (error, becasEncontradas) => {
+    if (error)
+      return res.status(500).send({ Error: "Error al procesar la peticion." });
+    return res.status(200).send({ BecasEncontradas: becasEncontradas });
+  });
+}
+
 module.exports = {
   nuevaBeca,
   becaId,
   editarBeca,
   borrarBeca,
+  verBecas,
+  becasEmpresa,
 };
