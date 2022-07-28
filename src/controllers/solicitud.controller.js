@@ -17,11 +17,9 @@ function enviarSolicitud(req, res) {
           nombreUsuario: usuarioEncontrado.nombre,
           apellidoUsuario: usuarioEncontrado.apellido,
           emailUsuario: usuarioEncontrado.email,
-          edadUsuario: datos.edad,
           infoMama: datos.infoMama,
           infoPapa: datos.infoPapa,
           infoColegio: datos.infoColegio,
-          cartaRecomendacion: datos.cartaRecomendacion,
           diplomas: datos.diplomas,
           calificaciones: datos.calificaciones,
           nombreBeca: becaEncontrada.nombre,
@@ -43,8 +41,7 @@ function enviarSolicitud(req, res) {
   });
 }
 
-function aprobarSolicitud(req, res) {+
-  
+function aprobarSolicitud(req, res) {
   Solicitudes.findById({ _id: req.params.ID }, (error, solicitudEncontrada) => {
     if (error)
       return res.status(500).send({ Error: "No se encontro la solicitud." });
@@ -89,7 +86,7 @@ function denegarSolicitud(req, res) {
 
 function solicitantes(req, res) {
   Solicitudes.find(
-    { idCreadorBeca: req.params.ID },
+    { idCreadorBeca: req.params.ID, aprobado: null },
     (error, solicitudesEncontradas) => {
       if (error)
         return res.status(500).send({ Error: "No se encontro la solicitud." });
@@ -106,10 +103,31 @@ function verSolicitud(req, res) {
   });
 }
 
+function solicitudes(req, res) {
+  Solicitudes.find({ idUsuario: req.params.ID }, (error, misSolicitudes) => {
+    if (error)
+      return res.status(500).send({ Error: "No se encontro la solicitud." });
+    return res.status(200).send({ MisSolicitudes: misSolicitudes });
+  });
+}
+
+function cancelarSolicitud(req, res) {
+  Solicitudes.findByIdAndDelete(
+    { _id: req.params.ID },
+    (error, solicitudEncontrada) => {
+      if (error)
+        return res.status(500).send({ Error: "No se encontro la solicitud." });
+      return res.status(200).send({ Solicitud: solicitudEncontrada });
+    }
+  );
+}
+
 module.exports = {
   enviarSolicitud,
   aprobarSolicitud,
   denegarSolicitud,
   solicitantes,
   verSolicitud,
+  solicitudes,
+  cancelarSolicitud,
 };
