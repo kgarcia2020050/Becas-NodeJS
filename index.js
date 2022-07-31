@@ -17,24 +17,34 @@ io.on("connection", function (socket) {
   });
 });
 
-http.listen(3030, () => {
+const prueba = process.env.PORT;
+
+http.listen(prueba || 3030, () => {
   console.log("chat");
 });
 
 mongoose.Promise = global.Promise;
 
 mongoose
-  .connect("mongodb://localhost:27017/Becas", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://takeru:12345@cluster0.ppw9e.mongodb.net/Becas?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
-    console.log("Se encuentra conectado a la base de datos.");
+    const port = process.env.PORT;
 
-    app.listen(3000, function () {
+    app.listen(port || 3000, function () {
       console.log("Hola IN6BM, esta corriendo en el puerto 3000");
     });
   })
   .catch((error) => console.log(error));
+
+
+  app.get("/",function(){
+    return res.status(200).send("Aplicacion corriendo.")
+  })
 
 Admin.crearAdmin();
