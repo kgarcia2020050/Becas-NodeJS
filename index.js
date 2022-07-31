@@ -16,6 +16,10 @@ io.on("connection", function (socket) {
   });
 });
 
+http.listen(3030, () => {
+  console.log("chat");
+});
+
 mongoose.Promise = global.Promise;
 
 mongoose
