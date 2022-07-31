@@ -17,9 +17,8 @@ io.on("connection", function (socket) {
   });
 });
 
-const prueba = process.env.PORT;
 
-http.listen(prueba || 3030, () => {
+http.listen( 3030, () => {
   console.log("chat");
 });
 

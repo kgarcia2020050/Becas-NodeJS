@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.use(cors());
 
+
+
 app.use("/api", rutasInicio, rutasUsuario, rutasBecas, rutaSolicitud);
 
 module.exports = app;
