@@ -12,6 +12,18 @@ app.use(express.json());
 
 app.use(cors());
 
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+
+const mensajes = [];
+
+io.on("connection", function (socket) {
+  socket.on("enviar", function (dato) {
+    mensajes.push(dato);
+    socket.emit("enviar-mensaje", mensajes);
+    socket.broadcast.emit("enviar-mensaje", mensajes);
+  });
+});
 
 
 app.use("/api", rutasInicio, rutasUsuario, rutasBecas, rutaSolicitud);
