@@ -36,15 +36,14 @@ mongoose
   .then(() => {
     const port = process.env.PORT;
 
-    app.listen(port || 3000, function () {
-      console.log("Hola IN6BM, esta corriendo en el puerto 3000");
+    app.listen(port || 3030, function () {
+      return console.log("Corriendo en el puerto " + port);
     });
   })
   .catch((error) => console.log(error));
 
-
-  app.get("/",function(req,res){
-    return res.status(200).send("Aplicacion corriendo.")
-  })
+app.get("/", function (req, res) {
+  return res.status(200).send("Aplicacion corriendo.");
+});
 
 Admin.crearAdmin();
