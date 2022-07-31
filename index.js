@@ -3,7 +3,8 @@ const app = require("./app");
 
 const Admin = require("./src/controllers/inicio.controller");
 
-const http = require("http").Server(app);
+const api = require("express")();
+const http = require("http").Server(api);
 const io = require("socket.io")(http);
 
 const mensajes = [];
@@ -16,7 +17,8 @@ io.on("connection", function (socket) {
   });
 });
 
-http.listen(3030, () => {
+
+http.listen( 3030, () => {
   console.log("chat");
 });
 
