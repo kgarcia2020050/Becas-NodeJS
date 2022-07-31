@@ -43,7 +43,7 @@ mongoose
   .catch((error) => console.log(error));
 
 
-  app.get("/",function(){
+  app.get("/",function(req,res){
     return res.status(200).send("Aplicacion corriendo.")
   })
 
